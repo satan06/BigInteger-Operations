@@ -8,9 +8,6 @@ namespace std
 {
     class RepresentationBI
     {
-        public RepresentationBI()
-        {
-        }
         public static void Write(BigInteger _uint)
         {
             for (int i = 3; i < _uint.items.Count; i += 4)
@@ -34,6 +31,12 @@ namespace std
                     Console.Write(i);
                 }
             }
+        }
+        public static void Write(BigIntegerFraction _fraction)
+        {
+            Write(_fraction.numerator);
+            Console.Write("/");
+            Write(_fraction.denominator);
         }
     }
 }
