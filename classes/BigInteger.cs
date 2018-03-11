@@ -29,14 +29,14 @@ namespace std
         public static BigInteger operator + (BigInteger a_uint, BigInteger b_uint)
         {
             if (((a_uint.items.Count == b_uint.items.Count) && a_uint.BitComparison(b_uint) && a_uint.is_negative)
-                || ((a_uint.items.Count > b_uint.items.Count) && a_uint.is_negative))
+                || ((a_uint.items.Count > b_uint.items.Count) && a_uint.is_negative && !b_uint.is_negative))
             {
                 BigInteger res = a_uint.Substruction(b_uint);
                 res.is_negative = true;
                 return res;
             }
             else if (((a_uint.items.Count == b_uint.items.Count) && a_uint.BitComparison(b_uint) && b_uint.is_negative)
-                || ((a_uint.items.Count > b_uint.items.Count) && b_uint.is_negative))
+                || ((a_uint.items.Count > b_uint.items.Count) && b_uint.is_negative && !a_uint.is_negative))
             {
                 BigInteger res = a_uint.Substruction(b_uint);
                 return res;
@@ -56,8 +56,8 @@ namespace std
                 return res;
             }
             else if (((a_uint.items.Count == b_uint.items.Count) && (a_uint.BitComparison(b_uint) 
-                || b_uint.BitComparison(a_uint)) 
-                && a_uint.is_negative && b_uint.is_negative))
+                || b_uint.BitComparison(a_uint)) && a_uint.is_negative && b_uint.is_negative)
+                || ((a_uint.items.Count > b_uint.items.Count) && a_uint.is_negative && b_uint.is_negative))
             {
                 BigInteger res = a_uint.Addition(b_uint);
                 res.is_negative = true;
@@ -87,8 +87,8 @@ namespace std
                 BigInteger res = a_uint.Addition(b_uint);
                 return res;
             }
-            else if (((a_uint.items.Count == b_uint.items.Count) && a_uint.BitComparison(b_uint)
-                && a_uint.is_negative && b_uint.is_negative))
+            else if (((a_uint.items.Count == b_uint.items.Count) && a_uint.BitComparison(b_uint) && a_uint.is_negative && b_uint.is_negative)
+                || ((a_uint.items.Count > b_uint.items.Count) && b_uint.is_negative && a_uint.is_negative))
             {
                 BigInteger res = a_uint.Substruction(b_uint);
                 res.is_negative = true;
@@ -115,12 +115,12 @@ namespace std
         }
         private BigInteger Addition(BigInteger _uint)
         {
-            int tsf = 0, n = Math.Max(this.items.Count, _uint.items.Count);
+            int tsf = 0, n = Math.Max(items.Count, _uint.items.Count);
             List<int> ans_t = new List<int>();
 
             for (int i = 0; i < n; i++)
             {
-                int a_temp = (this.items.Count > i) ? this.items[i] : 0;
+                int a_temp = (items.Count > i) ? items[i] : 0;
                 int b_temp = (_uint.items.Count > i) ? _uint.items[i] : 0;
 
                 ans_t.Add(a_temp + b_temp + tsf);
@@ -143,12 +143,12 @@ namespace std
         }
         private BigInteger Substruction(BigInteger _uint)
         {
-            int tsf = 0, n = Math.Max(this.items.Count, _uint.items.Count);
+            int tsf = 0, n = Math.Max(items.Count, _uint.items.Count);
             List<int> ans_t = new List<int>();
 
             for (int i = 0; i < n; i++)
             {
-                int a_temp = (this.items.Count > i) ? this.items[i] : 0;
+                int a_temp = (items.Count > i) ? items[i] : 0;
                 int b_temp = (_uint.items.Count > i) ? _uint.items[i] : 0;
 
                 ans_t.Add(a_temp - b_temp - tsf);
@@ -174,9 +174,9 @@ namespace std
             int tsf = 0;
             List<int> ans_t = new List<int>();
 
-            for(int i = 0; i < this.items.Count; i++)
+            for(int i = 0; i < items.Count; i++)
             {
-                int temp = this.items[i] * _val + tsf;
+                int temp = items[i] * _val + tsf;
                 ans_t.Add(temp % 10);
                 tsf = (temp / 10);
             }
@@ -194,9 +194,9 @@ namespace std
         {
             BigInteger res = new BigInteger("0");
 
-            for(int i = 0; i < this.items.Count; i++)
+            for(int i = 0; i < items.Count; i++)
             {
-                BigInteger temp = _uint.Multiply(this.items[i]);
+                BigInteger temp = _uint.Multiply(items[i]);
                 for(int j = 0; j < i; j++)
                 {
                     temp.items.Insert(0, 0);
@@ -209,7 +209,7 @@ namespace std
         {
             for (int i = items.Count - 1; i >= 0; i--)
             {
-                int a_temp = this.items[i];
+                int a_temp = items[i];
                 int b_temp = _uint.items[i];
 
                 if(a_temp > b_temp)
