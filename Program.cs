@@ -12,24 +12,11 @@ namespace std
         {
             do
             {
-                Console.Write("Enter first number: ");
-                BigInteger n = new BigInteger(Console.ReadLine());
-                Console.Write("Enter second number: ");
-                BigInteger p = new BigInteger(Console.ReadLine());
+                BigIntegerFraction n = new BigIntegerFraction(Console.ReadLine());
+                BigIntegerFraction p = new BigIntegerFraction(Console.ReadLine());
 
-                Console.WriteLine();
-                Console.Write("Addition result: ");
                 RepresentationBI.Write(n + p);
-
                 Console.WriteLine();
-                Console.Write("Substruction result: ");
-                RepresentationBI.Write(n - p);
-
-                Console.WriteLine();
-                Console.Write("Multiplication result: ");
-                RepresentationBI.Write(n * p);
-
-                Console.WriteLine("\n");
             }
             while (true);
         }
